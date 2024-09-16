@@ -11,15 +11,31 @@ namespace OOP_2425_BaseCode
         static void Main(string[] args)
         {
             int[] list = new int[0];
-            Random rnd = new Random();
+            Random rnd = new Random(); 
+
+
+            list = AddToArray(list, 1);
+            list = AddToArray(list, 1);
+            list = AddToArray(list, 3);
+            list = AddToArray(list, 1);
+            list = AddToArray(list, 5);
+            list = AddToArray(list, 1);
+            list = AddToArray(list, 3);
+
 
             DisplayArray(list);
 
-            for (int x = 0; x < 100; x++)
-            {
-                list = AddToArray(list, rnd.Next(20));
-                DisplayArray(list);
-            }
+            Console.WriteLine(Contains(list,5));
+            Console.WriteLine(Find(list,3));
+            list = RemoveAt(list, 5);
+
+            Console.WriteLine();
+            DisplayArray(list);
+
+            list = Remove(list,3);
+
+            Console.WriteLine();
+            DisplayArray(list);
 
             Console.ReadKey();
         }
@@ -50,9 +66,70 @@ namespace OOP_2425_BaseCode
             int[] newArray = new int[array.Length + 1];
 
             for (int x = 0; x < array.Length; x++)
+            {
                 newArray[x] = array[x];
+            }
 
             newArray[array.Length] = value;
+
+            return newArray;
+        }
+
+        static bool Contains(int[] array, int find)
+        {
+            bool found = false;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == find)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
+        static int Find(int[] array, int find)
+        {
+            int location = -1;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == find)
+                {
+                    location = i;
+                    break;
+                }
+            }
+
+            return location;
+        }
+
+        static int[] RemoveAt(int[] array, int index)
+        {
+            Console.WriteLine($"Removing the item in the index of {index}");
+            int[] newArray = new int[array.Length - 1];
+            int space = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i < index || i > index)
+                {
+                    newArray[space] = array[i];
+                    space++;
+                }
+            }
+
+            return newArray;
+        }
+
+       static int[] Remove(int[] array, int value)
+        {
+            Console.WriteLine($"Removing the first instance of {value}");
+            int locate = Find(array, value);
+            int[] newArray = RemoveAt(array, locate);
 
             return newArray;
         }
