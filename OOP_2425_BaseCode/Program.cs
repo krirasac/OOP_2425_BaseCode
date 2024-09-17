@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +34,11 @@ namespace OOP_2425_BaseCode
             DisplayArray(list);
 
             list = Remove(list,3);
+
+            Console.WriteLine();
+            DisplayArray(list);
+
+            list = RemoveAll(list, 1);
 
             Console.WriteLine();
             DisplayArray(list);
@@ -77,48 +83,52 @@ namespace OOP_2425_BaseCode
 
         static bool Contains(int[] array, int find)
         {
-            bool found = false;
-
             for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] == find)
                 {
-                    found = true;
-                    break;
+                    return true;
                 }
             }
-
-            return found;
+            return false;
         }
 
         static int Find(int[] array, int find)
         {
-            int location = -1;
-
             for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] == find)
                 {
-                    location = i;
-                    break;
+                   return i;
                 }
             }
 
-            return location;
+            return -1;
         }
 
         static int[] RemoveAt(int[] array, int index)
         {
-            Console.WriteLine($"Removing the item in the index of {index}");
-            int[] newArray = new int[array.Length - 1];
+            int[] newArray = { };
             int space = 0;
 
-            for (int i = 0; i < array.Length; i++)
+            if (index > -1 && index < array.Length)
             {
-                if (i < index || i > index)
+                newArray = new int[array.Length - 1];
+            }
+            else
+            {
+                newArray = array;
+            }
+
+            if (array.Length > newArray.Length)
+            {
+                for (int i = 0; i < array.Length; i++)
                 {
-                    newArray[space] = array[i];
-                    space++;
+                    if (i < index || i > index)
+                    {
+                        newArray[space] = array[i];
+                        space++;
+                    }
                 }
             }
 
@@ -127,11 +137,17 @@ namespace OOP_2425_BaseCode
 
        static int[] Remove(int[] array, int value)
         {
-            Console.WriteLine($"Removing the first instance of {value}");
-            int locate = Find(array, value);
-            int[] newArray = RemoveAt(array, locate);
+            return RemoveAt(array, Find(array,value));
+        }
 
-            return newArray;
+        static int[] RemoveAll(int[] array, int value)
+        {
+            while (Contains(array, value))
+            {
+               array = Remove(array, value); 
+            }
+
+            return array;
         }
     }
 }
